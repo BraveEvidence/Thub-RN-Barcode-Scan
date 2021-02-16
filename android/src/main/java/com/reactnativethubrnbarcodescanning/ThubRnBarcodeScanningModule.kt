@@ -6,7 +6,9 @@ import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import java.io.File
 import java.io.IOException
+import java.lang.StringBuilder
 
 
 class ThubRnBarcodeScanningModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -33,17 +35,19 @@ class ThubRnBarcodeScanningModule(private val reactContext: ReactApplicationCont
 
     val image: InputImage
     try {
-      image = InputImage.fromFilePath(reactContext, Uri.parse(uri))
+      val file = File(uri)
+      image = InputImage.fromFilePath(reactContext, Uri.parse(file.toString()))
       val scanner = BarcodeScanning.getClient(options)
      scanner.process(image)
         .addOnSuccessListener { barcodes ->
           if(barcodes.size > 0){
-            for (barcode in barcodes) {
+            val barcode = barcodes[0]
+//            for (barcode in barcodes) {
 //            val bounds = barcode.boundingBox
 //            val corners = barcode.cornerPoints
 
-              val rawValue = barcode.rawValue
-              barcodeScanningSuccessCallback?.invoke(rawValue)
+              val rawValue: String? = barcode?.rawValue
+              barcodeScanningSuccessCallback?.invoke(rawValue.toString())
 
 //            when (barcode.valueType) {
 //              Barcode.TYPE_WIFI -> {
@@ -99,7 +103,7 @@ class ThubRnBarcodeScanningModule(private val reactContext: ReactApplicationCont
 //                val url = barcode.url!!.url
 //              }
 //            }
-            }
+//            }
           } else {
             barcodeScanningFailureCallback?.invoke("No barcode detected")
           }

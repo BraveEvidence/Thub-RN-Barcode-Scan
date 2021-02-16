@@ -1,6 +1,6 @@
 {
   "name": "react-native-thub-rn-barcode-scanning",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rn module for barcode scanning",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/PritishSawant/react-native-thub-rn-barcode-scanning",
+  "repository": "https://github.com/PritishSawant/Thub-RN-Barcode-Scan",
   "author": "Pritish Sawant <sawantpritish@gmail.com> (https://github.com/PritishSawant)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/PritishSawant/react-native-thub-rn-barcode-scanning/issues"
+    "url": "https://github.com/PritishSawant/Thub-RN-Barcode-Scan/issues"
   },
-  "homepage": "https://github.com/PritishSawant/react-native-thub-rn-barcode-scanning#readme",
+  "homepage": "https://github.com/PritishSawant/Thub-RN-Barcode-Scan#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -77,12 +77,6 @@
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
-    }
   },
   "commitlint": {
     "extends": [
