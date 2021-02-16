@@ -38,71 +38,78 @@ class ThubRnBarcodeScanningModule(private val reactContext: ReactApplicationCont
       val file = File(uri)
       image = InputImage.fromFilePath(reactContext, Uri.parse(file.toString()))
       val scanner = BarcodeScanning.getClient(options)
-     scanner.process(image)
+      scanner.process(image)
         .addOnSuccessListener { barcodes ->
-          if(barcodes.size > 0){
+          if (barcodes.size > 0) {
             val barcode = barcodes[0]
 //            for (barcode in barcodes) {
 //            val bounds = barcode.boundingBox
 //            val corners = barcode.cornerPoints
 
-              val rawValue: String? = barcode?.rawValue
-              barcodeScanningSuccessCallback?.invoke(rawValue.toString())
+//              val rawValue: String? = barcode?.rawValue
 
-//            when (barcode.valueType) {
-//              Barcode.TYPE_WIFI -> {
-//                val ssid = barcode.wifi?.ssid
-//                val password = barcode.wifi?.password
-//                val type = barcode.wifi?.encryptionType
-//              }
-//              Barcode.TYPE_URL -> {
-//                val title = barcode.url?.title
-//                val url = barcode.url?.url
-//              }
-//              Barcode.TYPE_UNKNOWN -> {
-//
-//              }
-//              Barcode.TYPE_CONTACT_INFO -> {
-//                val title = barcode.contactInfo?.title
-//                val url = barcode.contactInfo?.addresses
-//              }
-//              Barcode.TYPE_EMAIL -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_ISBN -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_PHONE -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_PRODUCT -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_SMS -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_TEXT -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_GEO -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_CALENDAR_EVENT -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//              Barcode.TYPE_DRIVER_LICENSE -> {
-//                val title = barcode.url!!.title
-//                val url = barcode.url!!.url
-//              }
-//            }
+
+            when (barcode.valueType) {
+              Barcode.TYPE_WIFI -> {
+                val ssid = barcode.wifi?.ssid
+                val password = barcode.wifi?.password
+                val type = barcode.wifi?.encryptionType
+                barcodeScanningSuccessCallback?.invoke("$ssid $password $type")
+              }
+              Barcode.TYPE_URL -> {
+                val title = barcode.url?.title
+                val url = barcode.url?.url
+                barcodeScanningSuccessCallback?.invoke("$title $url ")
+              }
+              Barcode.TYPE_UNKNOWN -> {
+                barcodeScanningFailureCallback?.invoke("Unknown barcode type")
+              }
+              Barcode.TYPE_CONTACT_INFO -> {
+                val title = barcode.contactInfo?.title
+                val address = barcode.contactInfo?.addresses
+                barcodeScanningSuccessCallback?.invoke("$title $address ")
+              }
+              Barcode.TYPE_EMAIL -> {
+                val title = barcode.email?.address
+                barcodeScanningSuccessCallback?.invoke("$title")
+              }
+              Barcode.TYPE_ISBN -> {
+                val title = barcode.rawValue
+                barcodeScanningSuccessCallback?.invoke(title?.toString() ?: "")
+              }
+              Barcode.TYPE_PHONE -> {
+                val title = barcode.phone?.number
+                barcodeScanningSuccessCallback?.invoke("$title")
+              }
+              Barcode.TYPE_PRODUCT -> {
+                val title = barcode.rawValue
+                barcodeScanningSuccessCallback?.invoke(title?.toString() ?: "")
+              }
+              Barcode.TYPE_SMS -> {
+                val title = barcode.sms?.message
+                barcodeScanningSuccessCallback?.invoke("$title")
+              }
+              Barcode.TYPE_TEXT -> {
+                val title = barcode.rawValue
+                barcodeScanningSuccessCallback?.invoke(title?.toString() ?: "")
+              }
+              Barcode.TYPE_GEO -> {
+                val title = barcode.geoPoint?.lat
+                barcodeScanningSuccessCallback?.invoke("$title")
+              }
+              Barcode.TYPE_CALENDAR_EVENT -> {
+                val title = barcode.calendarEvent?.description
+                barcodeScanningSuccessCallback?.invoke("$title")
+              }
+              Barcode.TYPE_DRIVER_LICENSE -> {
+                val title = barcode.driverLicense?.firstName
+                barcodeScanningSuccessCallback?.invoke("$title")
+              }
+              else -> {
+                val title = barcode.rawValue
+                barcodeScanningSuccessCallback?.invoke(title?.toString() ?: "")
+              }
+            }
 //            }
           } else {
             barcodeScanningFailureCallback?.invoke("No barcode detected")
