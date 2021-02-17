@@ -1,6 +1,6 @@
 {
   "name": "react-native-thub-rn-barcode-scanning",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Rn module for barcode scanning",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

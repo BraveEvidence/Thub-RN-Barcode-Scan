@@ -11,11 +11,17 @@ npm install react-native-thub-rn-barcode-scanning
 ## Usage
 
 ```js
-import ThubRnBarcodeScanning from "react-native-thub-rn-barcode-scanning";
+import ThubRnBarcodeScanning from 'react-native-thub-rn-barcode-scanning';
 
-// ...
-
-const result = await ThubRnBarcodeScanning.multiply(3, 7);
+ThubRnBarcodeScanning.scanBarcode(
+  imagePath,
+  (data) => {
+    console.log(data);
+  },
+  (errorMessage) => {
+    console.log(errorMessage);
+  }
+);
 ```
 
 ## Contributing
